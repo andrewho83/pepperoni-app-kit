@@ -1,10 +1,12 @@
 ![Pepperoni - Empowered by Futurice](/docs/pepperoni.png?v=2)
 Futurice React Native Starter Kit
 ===
+
+[![Join the chat at https://gitter.im/futurice/pepperoni-app-kit](https://badges.gitter.im/futurice/pepperoni-app-kit.svg)](https://gitter.im/futurice/pepperoni-app-kit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/futurice/pepperoni-app-kit.svg?branch=master)](https://travis-ci.org/futurice/pepperoni-app-kit)
-[![React Native](https://img.shields.io/badge/react%20native-0.29-brightgreen.svg)](https://github.com/facebook/react-native)
+[![React Native](https://img.shields.io/badge/react%20native-0.37.0-brightgreen.svg)](https://github.com/facebook/react-native)
 [![Sponsored](https://img.shields.io/badge/chilicorn-sponsored-brightgreen.svg)](http://spiceprogram.org/oss-sponsorship/)
-[![License](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)]()
+[![License](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/futurice/pepperoni-app-kit/blob/master/LICENSE)
 
 We :green_heart: building apps with React Native, because it helps us create high quality products for both major mobile platforms quickly and cost-effectively.
 
@@ -37,9 +39,8 @@ Not all of the below is yet fully implemented
 
 ### Testing Setup
 
-* [Mocha](https://mochajs.org/) for unit testing application code
+* [Jest](https://facebook.github.io/jest/) for unit testing application code and providing coverage information.
 * [Enzyme](https://github.com/airbnb/enzyme) and fully mocked React Native for unit testing UI components
-* [Istanbul](https://github.com/gotwarlost/istanbul) code coverage
 * Utilities for end-to-end integration testing Redux state, including side effects and asynchronous actions
 
 ### Development & Deployment Infrastructure
@@ -47,18 +48,18 @@ Not all of the below is yet fully implemented
 * [Auth0](https://auth0.com/) for ready-to-use login and signup screens, user authentication and identity management
 * [Bitrise.io](https://www.bitrise.io) configurations for Continuous Integration and beta app distribution
 * :warning: [Google Tag Manager](https://www.google.com/analytics/tag-manager/) analytics
-* :star: [Microsoft Code Push](http://microsoft.github.io/code-push) for Continuous Deployment and instant app updates
 
 
 ### Roadmap
 
+* **TODO** :star: [Microsoft Code Push](http://microsoft.github.io/code-push) for instant JavaScript and images update
 * **TODO** Crash reporting
 * **TODO** Android and iOS UI Testing with Calaba.sh?
 * **TODO** Feature flags?
 
 ## Getting started
 
-To build your own app on top of the Starter Kit, fork or mirror this repository. Because you can't rename a fork, for serious use we recommend [mirroring using these instructions](https://help.github.com/articles/duplicating-a-repository/). To contribute to Starter Kit development or just playing around, forking is the way to go.
+To build your own app on top of the Starter Kit, fork or mirror this repository. For serious use we recommend [mirroring using these instructions](https://help.github.com/articles/duplicating-a-repository/), since you can't make a fork of a public repository private on GitHub. To contribute to Starter Kit development or just playing around, forking is the way to go.
 
 First, give your application a name by running `./support/rename.sh YourAppName`.
 
