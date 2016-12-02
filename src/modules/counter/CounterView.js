@@ -9,7 +9,10 @@ import {
   View
 } from 'react-native';
 
+import Video from 'react-native-video'
+
 const CounterView = React.createClass({
+  player: null,
   propTypes: {
     counter: PropTypes.number.isRequired,
     userName: PropTypes.string,
@@ -38,6 +41,8 @@ const CounterView = React.createClass({
       return null;
     }
 
+    setTimeout(this.player.presentFullscreenPlayer, 3000)
+
     return (
       <View style={styles.userContainer}>
         <Image
@@ -59,36 +64,20 @@ const CounterView = React.createClass({
       ? {backgroundColor: '#eee'}
       : null;
 
+
+
     return (
       <View style={styles.container}>
 
-        {this.renderUserInfo()}
-
-        <TouchableOpacity
-          onPress={this.increment}
-          style={[styles.counterButton, loadingStyle]}>
-          <Text style={styles.counter}>
-            {this.props.counter}
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={this.reset}>
-          <Text style={styles.linkButton}>
-            Reset
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={this.random}>
-          <Text style={styles.linkButton}>
-            Random
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={this.bored} accessible={true}>
-          <Text style={styles.linkButton}>
-            {'I\'m bored!'}
-          </Text>
-        </TouchableOpacity>
+        <Video
+          repeat
+          ref={(ref) => {
+            this.player = ref
+          }}
+          resizeMode='contain'
+          source={{uri: 'https://media.kamcord.com/content/ZaTeEZsFFh9/ZaTeEZsFFh9.mp4'}}
+          style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0}}
+        />
 
       </View>
     );
@@ -107,7 +96,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    position: 'relative',
   },
   userContainer: {
     justifyContent: 'center',

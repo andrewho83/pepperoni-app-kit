@@ -68,15 +68,14 @@ const NavigationView = React.createClass({
           key={'stack_' + tabKey}
           onNavigateBack={this.props.onNavigateBack}
           navigationState={scenes}
-          renderHeader={this.renderHeader}
           renderScene={this.renderScene}
         />
-        <TabBar
+        {/* <TabBar
           height={TAB_BAR_HEIGHT}
           tabs={tabs}
           currentTabIndex={tabs.index}
           switchTab={this.props.switchTab}
-        />
+        /> */}
       </View>
     );
   }
@@ -88,7 +87,7 @@ const styles = StyleSheet.create({
   },
   sceneContainer: {
     flex: 1,
-    marginBottom: TAB_BAR_HEIGHT
+    // marginBottom: TAB_BAR_HEIGHT
   }
 });
 
