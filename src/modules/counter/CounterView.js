@@ -6,71 +6,87 @@ import {
   TouchableOpacity,
   Image,
   Text,
-  View
+  View,
+  PanResponder,
 } from 'react-native';
 
 import Video from 'react-native-video'
 
-const CounterView = React.createClass({
-  player: null,
-  propTypes: {
-    counter: PropTypes.number.isRequired,
-    userName: PropTypes.string,
-    userProfilePhoto: PropTypes.string,
-    loading: PropTypes.bool.isRequired,
-    dispatch: PropTypes.func.isRequired
-  },
-  increment() {
-    this.props.dispatch(CounterState.increment());
-  },
-  reset() {
-    this.props.dispatch(CounterState.reset());
-  },
-  random() {
-    this.props.dispatch(CounterState.random());
-  },
-  bored() {
-    this.props.dispatch(NavigationState.pushRoute({
-      key: 'Color',
-      title: 'Color Screen'
-    }));
-  },
+class CounterView extends React.Component {
+  constructor() {
+    super()
 
-  renderUserInfo() {
-    if (!this.props.userName) {
-      return null;
+    this.player = null
+    this.panResponder = {}
+  }
+
+  increment = () => {
+    this.props.dispatch(CounterState.increment());
+  }
+
+  componentDidMount() {
+    this.panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: this.handleStartShouldSetPanResponder,
+      onPanResponderGrant: this.handlePanResponderGrant,
+      onPanResponderMove: this.handlePanResponderMove,
+      onPanResponderRelease: this.handlePanResponderEnd,
+      onPanResponderTerminate: this.handlePanResponderEnd,
+    })
+  }
+
+  // Should we become active when the user presses down on the square?
+  handleStartShouldSetPanResponder = (e, gestureState) => {
+    return true
+  }
+
+  // We were granted responder status! Let's update the UI
+  handlePanResponderGrant = (e, gestureState) => {
+    // this.setState({dragging: true})
+  }
+
+  // Every time the touch/mouse moves
+  handlePanResponderMove = (e, gestureState) => {
+    // const {initialTop, initialLeft} = this.state
+
+    console.log(gestureState.dx, gestureState.dy);
+    console.log(gestureState.vx, gestureState.vy);
+
+    if (gestureState.vx > 0.3 && gestureState.dx > 0) {
+      console.log('swipe right')
     }
 
-    setTimeout(this.player.presentFullscreenPlayer, 3000)
+    // Keep track of how far we've moved in total (dx and dy)
+    // this.setState({
+    //   offsetTop: gestureState.dy,
+    //   offsetLeft: gestureState.dx,
+    // })
+  }
 
-    return (
-      <View style={styles.userContainer}>
-        <Image
-          style={styles.userProfilePhoto}
-          source={{
-            uri: this.props.userProfilePhoto,
-            width: 80,
-            height: 80
-          }}
-        />
-        <Text style={styles.linkButton}>
-          Welcome, {this.props.userName}!
-        </Text>
-      </View>
-    );
-  },
+  // When the touch/mouse is lifted
+  handlePanResponderEnd = (e, gestureState) => {
+    // const {initialTop, initialLeft} = this.state
+
+
+    // The drag is finished. Set the initialTop and initialLeft so that
+    // the new position sticks. Reset offsetTop and offsetLeft for the next drag.
+    // this.setState({
+    //   dragging: false,
+    //   initialTop: initialTop + gestureState.dy,
+    //   initialLeft: initialLeft + gestureState.dx,
+    //   offsetTop: 0,
+    //   offsetLeft: 0,
+    // })
+  }
+
   render() {
-    const loadingStyle = this.props.loading
-      ? {backgroundColor: '#eee'}
-      : null;
-
-
-
     return (
-      <View style={styles.container}>
+      <View
+        {...this.panResponder.panHandlers}
+        style={styles.container}>
 
         <Video
           repeat
+          muted
           ref={(ref) => {
             this.player = ref
           }}
@@ -80,9 +96,17 @@ const CounterView = React.createClass({
         />
 
       </View>
-    );
+    )
   }
-});
+}
+
+CounterView.propTypes = {
+  counter: PropTypes.number.isRequired,
+  userName: PropTypes.string,
+  userProfilePhoto: PropTypes.string,
+  loading: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired
+}
 
 const circle = {
   borderWidth: 0,
