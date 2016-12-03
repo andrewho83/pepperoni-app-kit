@@ -11,6 +11,8 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
+import throttle from 'lodash/throttle'
+
 import Video from 'react-native-video'
 
 class CounterView extends React.Component {
@@ -20,13 +22,21 @@ class CounterView extends React.Component {
     this.player = null
     this.panResponder = {}
 
+    this.playNextCard = throttle(this.playNextCard, 1000)
+
     this.state = {
       videoUrl: 'https://media.kamcord.com/content/LkHKtissWdf/LkHKtissWdf.mp4',
-      feeds: props.feeds,
-      currentShot: false,
-      offsetLeft: 0,
-      offsetTop: 0,
+      cards: [],
+      shotIndex: 0,
       webViewActive: false,
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.loading !== nextProps.loading) {
+      const data = nextProps.feeds.toJS()
+      this.setState({
+        cards: data['featuredShots'].cards
+      })
     }
   }
 
@@ -37,6 +47,14 @@ class CounterView extends React.Component {
       onPanResponderMove: this.handlePanResponderMove,
       onPanResponderRelease: this.handlePanResponderEnd,
       onPanResponderTerminate: this.handlePanResponderEnd,
+    })
+  }
+
+  playNextCard = () => {
+    const nextShotIndex = (this.state.shotIndex + 1) % 20
+
+    this.setState({
+      shotIndex: nextShotIndex,
     })
   }
 
@@ -58,9 +76,7 @@ class CounterView extends React.Component {
     // console.log(gestureState.vx, gestureState.vy);
     //
     if (gestureState.vx > 0.3 && gestureState.dx > 0) {
-      this.setState({
-        videoUrl: 'https://media.kamcord.com/content/zpmYt50yGV3/zpmYt50yGV3.mp4'
-      })
+      this.playNextCard()
     }
 
     // if (gestureState.dy > 0) {
@@ -102,7 +118,9 @@ class CounterView extends React.Component {
     if (this.props.loading) {
       return null
     }
-    
+
+    console.log(this.state.cards[this.state.shotIndex]);
+
     return (
       <View style={styles.container}>
         {this.state.webViewActive ?
@@ -124,7 +142,9 @@ class CounterView extends React.Component {
                 this.player = ref
               }}
               resizeMode='cover'
-              source={{uri: this.state.videoUrl}}
+              source={{uri:
+                this.state.cards[this.state.shotIndex].shotCardData.play.mp4
+              }}
               style={{
                 position: 'absolute',
                 top: 0,
@@ -164,7 +184,6 @@ class CounterView extends React.Component {
 CounterView.propTypes = {
   userName: PropTypes.string,
   userProfilePhoto: PropTypes.string,
-  loading: PropTypes.bool.isRequired,
 }
 
 const circle = {
