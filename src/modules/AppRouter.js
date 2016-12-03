@@ -14,6 +14,10 @@ export default function AppRouter(props) {
     return <CounterViewContainer />;
   }
 
+  if (key === 'WebView') {
+    return <CounterViewContainer />;
+  }
+
   if (key.indexOf('Color') === 0) {
     const index = props.scenes.indexOf(props.scene);
     return (

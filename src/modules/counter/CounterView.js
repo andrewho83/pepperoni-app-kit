@@ -8,6 +8,7 @@ import {
   Text,
   View,
   PanResponder,
+  TouchableHighlight,
 } from 'react-native';
 
 import Video from 'react-native-video'
@@ -18,6 +19,13 @@ class CounterView extends React.Component {
 
     this.player = null
     this.panResponder = {}
+
+    this.state = {
+      videoUrl: 'https://media.kamcord.com/content/LkHKtissWdf/LkHKtissWdf.mp4',
+      offsetLeft: 0,
+      offsetTop: 0,
+      webViewActive: false,
+    }
   }
 
   increment = () => {
@@ -48,12 +56,26 @@ class CounterView extends React.Component {
   handlePanResponderMove = (e, gestureState) => {
     // const {initialTop, initialLeft} = this.state
 
-    console.log(gestureState.dx, gestureState.dy);
-    console.log(gestureState.vx, gestureState.vy);
-
+    // console.log(gestureState.dx, gestureState.dy);
+    // console.log(gestureState.vx, gestureState.vy);
+    //
     if (gestureState.vx > 0.3 && gestureState.dx > 0) {
-      console.log('swipe right')
+      this.setState({
+        videoUrl: 'https://media.kamcord.com/content/zpmYt50yGV3/zpmYt50yGV3.mp4'
+      })
     }
+
+    // if (gestureState.dy > 0) {
+    //   this.setState({
+    //     offsetTop: this.state.offsetTop + gestureState.dy
+    //   })
+    // }
+    //
+    // if (gestureState.dy < 0) {
+    //   this.setState({
+    //     offsetTop: this.state.offsetTop + gestureState.dy
+    //   })
+    // }
 
     // Keep track of how far we've moved in total (dx and dy)
     // this.setState({
@@ -80,20 +102,57 @@ class CounterView extends React.Component {
 
   render() {
     return (
-      <View
-        {...this.panResponder.panHandlers}
-        style={styles.container}>
+      <View style={styles.container}>
+        {this.state.webViewActive ?
+          <Text>
+            fdasfsa
+          </Text>
+          :
+          <View {...this.panResponder.panHandlers} style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+          }}>
+            <Video
+              repeat
+              muted
+              ref={(ref) => {
+                this.player = ref
+              }}
+              resizeMode='cover'
+              source={{uri: this.state.videoUrl}}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                bottom: 0,
+                right: 0,
+              }}
+            />
 
-        <Video
-          repeat
-          muted
-          ref={(ref) => {
-            this.player = ref
-          }}
-          resizeMode='contain'
-          source={{uri: 'https://media.kamcord.com/content/ZaTeEZsFFh9/ZaTeEZsFFh9.mp4'}}
-          style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0}}
-        />
+          </View>
+        }
+
+        <View
+          style={{
+            backgroundColor: 'skyblue',
+            height: 50,
+            width: 50,
+            position: 'absolute',
+            bottom: 30,
+            right: 30,
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+            <TouchableHighlight onPress={() => {
+              this.setState({webViewActive: !this.state.webViewActive})
+            }} underlayColor='white'>
+              <Text>See More</Text>
+            </TouchableHighlight>
+          </View>
 
       </View>
     )
