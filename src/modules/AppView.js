@@ -26,6 +26,11 @@ const AppView = React.createClass({
           snapshotUtil.saveSnapshot(store.getState());
         });
       });
+    this.preloadFeeds()
+  },
+
+  preloadFeeds() {
+    this.props.loadFeed('featuredShots')
   },
 
   render() {

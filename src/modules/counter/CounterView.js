@@ -28,10 +28,6 @@ class CounterView extends React.Component {
     }
   }
 
-  increment = () => {
-    this.props.dispatch(CounterState.increment());
-  }
-
   componentDidMount() {
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: this.handleStartShouldSetPanResponder,
@@ -105,7 +101,7 @@ class CounterView extends React.Component {
       <View style={styles.container}>
         {this.state.webViewActive ?
           <Text>
-            fdasfsa
+            {JSON.stringify(this.props.feeds.toJS())}
           </Text>
           :
           <View {...this.panResponder.panHandlers} style={{
@@ -164,7 +160,6 @@ CounterView.propTypes = {
   userName: PropTypes.string,
   userProfilePhoto: PropTypes.string,
   loading: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired
 }
 
 const circle = {
