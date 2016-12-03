@@ -2,7 +2,8 @@ import React, {PropTypes} from 'react';
 import {
   NavigationExperimental,
   View,
-  StyleSheet
+  StyleSheet,
+  StatusBar,
 } from 'react-native';
 const {
   CardStack: NavigationCardStack,
@@ -54,6 +55,7 @@ const NavigationView = React.createClass({
     // for app bar and navigation bar
     return (
       <View style={styles.sceneContainer}>
+        <StatusBar hidden />
         {AppRouter(sceneProps)}
       </View>
     );
