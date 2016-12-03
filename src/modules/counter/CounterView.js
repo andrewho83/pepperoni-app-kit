@@ -14,14 +14,16 @@ import {
 import Video from 'react-native-video'
 
 class CounterView extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.player = null
     this.panResponder = {}
 
     this.state = {
       videoUrl: 'https://media.kamcord.com/content/LkHKtissWdf/LkHKtissWdf.mp4',
+      feeds: props.feeds,
+      currentShot: false,
       offsetLeft: 0,
       offsetTop: 0,
       webViewActive: false,
@@ -97,11 +99,15 @@ class CounterView extends React.Component {
   }
 
   render() {
+    if (this.props.loading) {
+      return null
+    }
+    
     return (
       <View style={styles.container}>
         {this.state.webViewActive ?
           <Text>
-            {JSON.stringify(this.props.feeds.toJS())}
+            fadsfds
           </Text>
           :
           <View {...this.panResponder.panHandlers} style={{
@@ -156,7 +162,6 @@ class CounterView extends React.Component {
 }
 
 CounterView.propTypes = {
-  counter: PropTypes.number.isRequired,
   userName: PropTypes.string,
   userProfilePhoto: PropTypes.string,
   loading: PropTypes.bool.isRequired,
